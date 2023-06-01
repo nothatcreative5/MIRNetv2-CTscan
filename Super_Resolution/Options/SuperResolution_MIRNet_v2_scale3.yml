@@ -10,8 +10,8 @@ datasets:
   train:
     name: TrainSet
     type: Dataset_PairedImage
-    dataroot_gt: ./Super_Resolution/Datasets/train/realSR/x3/target_crops
-    dataroot_lq: ./Super_Resolution/Datasets/train/realSR/x3/input_crops
+    dataroot_gt: Datasets/train/realSR/x3/target_crops
+    dataroot_lq: Datasets/train/realSR/x3/input_crops
     geometric_augs: true
 
     filename_tmpl: '{}'
