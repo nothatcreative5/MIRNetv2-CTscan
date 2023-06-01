@@ -63,7 +63,7 @@ overlap = 256
 p_max = 0
 
 src_hr = '/content/lte-CTscan/load/CT/CT_train_HR'
-src_lr = '/content/lte-CTscan/load/CT/CT_train_LR_bilinear/X'+args.scale
+src_lr = '/content/lte-CTscan/load/CT/CT_train_LR_bilinear/'+args.scale
 tar = 'Datasets/train/CT/'+args.scale
 
 lr_tar = os.path.join(tar, 'input_crops')
@@ -75,7 +75,7 @@ os.makedirs(hr_tar, exist_ok=True)
 lr_files = natsorted(os.listdir(src_lr))
 hr_files = natsorted(os.listdir(src_hr))
 
-files = [(i, j) for i, j in zip(lr_files, hr_files)]
+files = [(os.path.join(src_lr,i), os.path.join(src_hr,j)) for i, j in zip(lr_files, hr_files)]
 
 Parallel(n_jobs=num_cores)(delayed(train_files)(file_) for file_ in tqdm(files))
 
