@@ -62,8 +62,9 @@ patch_size = 512
 overlap = 256
 p_max = 0
 
-src = 'Datasets/Downloads/train/realSR/'+args.scale
-tar = 'Datasets/train/realSR/'+args.scale
+src_hr = '/content/lte-CTscan/load/CT/CT_train_HR'
+src_lr = '/content/lte-CTscan/load/CT/CT_train_LR_bilinear/X'+args.scale
+tar = 'Datasets/train/CT/'+args.scale
 
 lr_tar = os.path.join(tar, 'input_crops')
 hr_tar = os.path.join(tar, 'target_crops')
@@ -71,8 +72,8 @@ hr_tar = os.path.join(tar, 'target_crops')
 os.makedirs(lr_tar, exist_ok=True)
 os.makedirs(hr_tar, exist_ok=True)
 
-lr_files = natsorted(glob(os.path.join(src, 'LR', '*.png')) + glob(os.path.join(src, 'LR', '*.jpg')))
-hr_files = natsorted(glob(os.path.join(src, 'HR', '*.png')) + glob(os.path.join(src, 'HR', '*.jpg')))
+lr_files = natsorted(os.listdir(src_lr))
+hr_files = natsorted(os.listdir(src_hr))
 
 files = [(i, j) for i, j in zip(lr_files, hr_files)]
 
