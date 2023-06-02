@@ -236,6 +236,8 @@ class ImageCleanModel(BaseModel):
             self.feed_data(val_data)
             test()
 
+            print(f'{idx} / {len(dataloader)}')
+
             visuals = self.get_current_visuals()
             sr_img = tensor2img([visuals['result']], rgb2bgr=rgb2bgr)
             if 'gt' in visuals:

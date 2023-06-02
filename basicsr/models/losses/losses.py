@@ -106,6 +106,7 @@ class PSNRLoss(nn.Module):
             pass
         assert len(pred.size()) == 4
 
+        # Wrong? (should be multiplied by -1)
         return self.loss_weight * self.scale * torch.log(((pred - target) ** 2).mean(dim=(1, 2, 3)) + 1e-8).mean()
 
 class CharbonnierLoss(nn.Module):
