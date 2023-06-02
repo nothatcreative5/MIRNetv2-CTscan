@@ -32,7 +32,7 @@ datasets:
 
     ### ------- Training on single fixed-patch size 128x128---------
     mini_batch_sizes: [8]   
-    iters: [3000]
+    iters: [30000]
     gt_size: 48   
     gt_sizes: [48]
     ### ------------------------------------------------------------
@@ -70,7 +70,7 @@ path:
 
 # training settings
 train:
-  total_iter: 15000
+  total_iter: 30000
   warmup_iter: -1 # no warm up
   use_grad_clip: true
 
@@ -96,7 +96,7 @@ train:
   
   # losses
   pixel_opt:
-    type: L2Loss
+    type: MSELoss
     loss_weight: 1
     reduction: mean
 
@@ -113,16 +113,16 @@ val:
     psnr: # metric name, can be arbitrary
       type: calculate_psnr
       crop_border: 2
-      test_y_channel: true
+      test_y_channel: false
     ssim:
       type: calculate_ssim
       crop_border: 2
-      test_y_channel: true
+      test_y_channel: false
 
 # logging settings
 logger:
-  print_freq: 5
-  save_checkpoint_freq: !!float 3e3
+  print_freq: 100
+  save_checkpoint_freq: !!float 1e3
   use_tb_logger: true
   wandb:
     project: ~
