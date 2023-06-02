@@ -219,7 +219,7 @@ class ImageCleanModel(BaseModel):
                 metric: 0
                 for metric in self.opt['val']['metrics'].keys()
             }
-        # pbar = tqdm(total=len(dataloader), unit='image')
+        pbar = tqdm(total=len(dataloader), unit='image')
 
         window_size = self.opt['val'].get('window_size', 0)
 
@@ -236,7 +236,9 @@ class ImageCleanModel(BaseModel):
             self.feed_data(val_data)
             test()
 
-            print(f'{idx} / {len(dataloader)}')
+            # print(f'{idx} / {len(dataloader)}')
+            pbar.update(1)
+            pbar.set_description(f'Processed {pbar.n} images')
 
             visuals = self.get_current_visuals()
             sr_img = tensor2img([visuals['result']], rgb2bgr=rgb2bgr)
