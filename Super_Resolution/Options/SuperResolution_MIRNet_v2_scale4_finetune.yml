@@ -32,7 +32,7 @@ datasets:
 
     ### ------- Training on single fixed-patch size 48x48---------
     mini_batch_sizes: [8]   
-    iters: [6000]
+    iters: [6000] # number of first training iterations + number of iterations for fine tuning (3000 + 3000)
     gt_size: 48   
     gt_sizes: [48]
     ### ------------------------------------------------------------
@@ -46,7 +46,7 @@ datasets:
     dataroot_gt: /content/CT/CT_valid_HR
     dataroot_lq: /content/CT/CT_valid_LR_bilinear/X4
     io_backend:
-      type: disk
+      type: disk # memory | disk (Set to disk for large datasets)
 
 # network structures
 network_g:
@@ -63,6 +63,7 @@ network_g:
 
 
 # path
+# No need to set anything here, it automatically detects the pretrained model.
 path:
   pretrain_network_g: ~
   strict_load_g: true
@@ -77,10 +78,12 @@ train:
   # Split 300k iterations into two cycles. 
   # 1st cycle: fixed 3e-4 LR for 92k iters. 
   # 2nd cycle: cosine annealing (3e-4 to 1e-6) for 208k iters.
+
+  # Can be tweaked for different training iterations. (Since I only trained it for 3000, it didn't show much effect.)
   scheduler:
     type: CosineAnnealingRestartCyclicLR
     periods: [46000, 104000]       
-    restart_weights: [1,1]
+    restart_weights: [1,1] 
     eta_mins: [0.0003,0.000001]   
   
   mixing_augs:
@@ -96,15 +99,15 @@ train:
   
   # losses
   pixel_opt:
-    type: MSELoss
+    type: MSELoss #L1Loss, MSELoss, PSNRLoss
     loss_weight: 1
     reduction: mean
 
 # validation settings
 val:
   window_size: 4
-  val_freq: !!float 3e3
-  save_img: true
+  val_freq: !!float 3e3 # Run model on validation after every 3000 iterations.
+  save_img: true # save validation results (Set to false for faster training)
   rgb2bgr: true
   use_image: false
   max_minibatch: 8
@@ -121,14 +124,15 @@ val:
 
 # logging settings
 logger:
-  print_freq: 100
-  save_checkpoint_freq: !!float 1e3
+  print_freq: 100 # print training information every 100 iterations
+  save_checkpoint_freq: !!float 1e3 # save checkpoint every 1000 iterations
   use_tb_logger: true
   wandb:
     project: ~
     resume_id: ~
 
 # dist training settings
+# This part was for distributed training. I didn't use it.
 dist_params:
   backend: nccl
   port: 29500

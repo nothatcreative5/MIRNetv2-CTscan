@@ -19,6 +19,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--scale', type=str, required=True, help='x2,x3,x4')
+parser.add_argument('--finetune', type = str, required = True, help = 'False, True')
 args = parser.parse_args()
 
 
@@ -62,8 +63,19 @@ patch_size = 512
 overlap = 256
 p_max = 0
 
-src_hr = '/content/lte-CTscan/load/CT/CT_train_HR'
-src_lr = '/content/lte-CTscan/load/CT/CT_train_LR_bilinear/'+args.scale
+first_hr_path = '/content/lte-CTscan/load/CT/CT_train_HR'
+first_sr_path = '/content/lte-CTscan/load/CT/CT_train_LR_bilinear/'+args.scale
+
+finetune_hr_path = '/content/CT/CT_train_HR'
+finetune_sr_path = '/content/CT/CT_train_LR_bilinear/' + args.scale
+
+# src_hr = '/content/lte-CTscan/load/CT/CT_train_HR'
+# src_lr = '/content/lte-CTscan/load/CT/CT_train_LR_bilinear/'+args.scale
+
+
+src_hr = finetune_hr_path if args.finetune == 'True' else first_hr_path
+src_lr = finetune_sr_path if args.finetune == 'True' else first_sr_path
+
 tar = 'Datasets/train/CT/'+args.scale
 
 lr_tar = os.path.join(tar, 'input_crops')

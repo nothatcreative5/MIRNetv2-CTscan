@@ -32,9 +32,9 @@ datasets:
 
     ### ------- Training on single fixed-patch size 128x128---------
     mini_batch_sizes: [8]   
-    iters: [3000]
-    gt_size: 48   
-    gt_sizes: [48]
+    iters: [3000] # Has to be the same number as the total_iter in train section
+    gt_size: 48   # Max patch size for progressive training
+    gt_sizes: [48] # Patch sizes for progressive training.
     ### ------------------------------------------------------------
 
     dataset_enlarge_ratio: 1
